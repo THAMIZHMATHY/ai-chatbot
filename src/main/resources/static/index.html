@@ -118,7 +118,6 @@
         chatbox.innerHTML += "<div class='message user'>" + message + "</div>";
         chatbox.innerHTML +=
           "<div class='message bot loading' id='loading'>Typing...</div>";
-
         chatbox.scrollTop = chatbox.scrollHeight;
 
         fetch("https://ai-chatbot-4-0rxp.onrender.com/chat", {
@@ -126,7 +125,7 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message: message }),
+          body: JSON.stringify(message),
         })
           .then((response) => response.text())
           .then((data) => {
@@ -141,8 +140,8 @@
             if (loading) loading.remove();
 
             chatbox.innerHTML +=
-              "<div class='message bot'>Error: Could not reach server</div>";
-            console.error(error);
+              "<div class='message bot'>Error: Failed to connect</div>";
+            console.error("Fetch error:", error);
           });
 
         input.value = "";
