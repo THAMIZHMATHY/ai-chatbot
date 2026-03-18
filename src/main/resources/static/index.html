@@ -115,10 +115,7 @@
 
         let chatbox = document.getElementById("chatbox");
 
-        // Show user message
         chatbox.innerHTML += "<div class='message user'>" + message + "</div>";
-
-        // Show loading
         chatbox.innerHTML +=
           "<div class='message bot loading' id='loading'>Typing...</div>";
 
@@ -129,20 +126,28 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(message),
+          body: JSON.stringify({ message: message }),
         })
           .then((response) => response.text())
           .then((data) => {
-            document.getElementById("loading").remove();
+            const loading = document.getElementById("loading");
+            if (loading) loading.remove();
 
             chatbox.innerHTML += "<div class='message bot'>" + data + "</div>";
             chatbox.scrollTop = chatbox.scrollHeight;
+          })
+          .catch((error) => {
+            const loading = document.getElementById("loading");
+            if (loading) loading.remove();
+
+            chatbox.innerHTML +=
+              "<div class='message bot'>Error: Could not reach server</div>";
+            console.error(error);
           });
 
         input.value = "";
       }
 
-      // ✅ Enter key support
       document
         .getElementById("input")
         .addEventListener("keypress", function (event) {
