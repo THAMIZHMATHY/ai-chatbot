@@ -21,11 +21,13 @@ public class AIService {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + apiKey);
+        headers.setBearerAuth(apiKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("HTTP-Referer", "https://ai-chatbot-4-0rxp.onrender.com");
+        headers.set("X-Title", "ai-chatbot");
 
         Map<String, Object> body = new HashMap<>();
-        body.put("model", "openai/gpt-3.5-turbo");
+        body.put("model", "openai/gpt-4o-mini");
 
         List<Map<String, String>> messages = new ArrayList<>();
         Map<String, String> msg = new HashMap<>();
